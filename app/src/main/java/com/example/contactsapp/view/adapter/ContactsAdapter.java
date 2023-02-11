@@ -11,14 +11,18 @@ import com.example.contactsapp.R;
 import com.example.contactsapp.databinding.CardViewBinding;
 import com.example.contactsapp.domain.Contact;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
 
     private List<Contact> contactList;
+    private List<Contact> newList;
 
     public ContactsAdapter(List<Contact> contactList){
         this.contactList = contactList;
+        this.newList = new ArrayList<>();
+        newList.addAll(contactList);
     }
 
     @NonNull
@@ -54,5 +58,21 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             binding.tvPhone.setText(contactList.get(position).getPhone());
             binding.tvWebsite.setText(contactList.get(position).getWebsite());
         }
+    }
+
+    public void filter(String textSearch) {
+        int textLong = textSearch.length();
+        if (textLong == 0) {
+            contactList.clear();
+            contactList.addAll(newList);
+        } else {
+            contactList.clear();
+            for (Contact contact : newList) {
+                if (contact.getName().toLowerCase().contains(textSearch.toLowerCase())) {
+                    contactList.add(contact);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }

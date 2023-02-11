@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.example.contactsapp.databinding.ActivityMainBinding;
 import com.example.contactsapp.domain.Contact;
@@ -17,7 +18,7 @@ import com.example.contactsapp.view.adapter.ContactsAdapter;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements iView {
+public class MainActivity extends AppCompatActivity implements iView, SearchView.OnQueryTextListener {
 
     private ActivityMainBinding binding;
     private iPresenter presenter;
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements iView {
         setContentView(binding.getRoot());
         init();
         searchContacts();
-
         binding.btnRetry.setOnClickListener(v -> searchContacts());
+        binding.customTb.searchView.setOnQueryTextListener(this);
     }
 
     public void init(){
@@ -63,5 +64,16 @@ public class MainActivity extends AppCompatActivity implements iView {
         binding.progress.setVisibility(View.GONE);
         binding.linearRetry.setVisibility(View.VISIBLE);
         binding.txtError.setText(message);
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        adapter.filter(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.isEmpty()) adapter.filter("");
+        return false;
     }
 }
