@@ -43,7 +43,7 @@ public class ModelImpl implements iModel {
 
             @Override
             public void onFailure(Call<List<Contact>> call, Throwable t) {
-
+                presenter.presenterShowError("Hubo un error en la conexión");
             }
         });
     }

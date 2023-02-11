@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.contactsapp.databinding.ActivityMainBinding;
 import com.example.contactsapp.domain.Contact;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements iView {
         setContentView(binding.getRoot());
         init();
         searchContacts();
+
+        binding.btnRetry.setOnClickListener(v -> searchContacts());
     }
 
     public void init(){
@@ -41,11 +44,14 @@ public class MainActivity extends AppCompatActivity implements iView {
     }
 
     private void searchContacts(){
+        binding.linearRetry.setVisibility(View.GONE);
+        binding.progress.setVisibility(View.VISIBLE);
         presenter.presenterSearchContacts();
     }
 
     @Override
     public void showResults(List<Contact> contacts) {
+        binding.progress.setVisibility(View.GONE);
         adapter = new ContactsAdapter(contacts);
         binding.recycler.setAdapter(adapter);
         binding.recycler.addItemDecoration(dividerItemDecoration);
@@ -54,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements iView {
 
     @Override
     public void showError(String message) {
-
+        binding.progress.setVisibility(View.GONE);
+        binding.linearRetry.setVisibility(View.VISIBLE);
+        binding.txtError.setText(message);
     }
 }

@@ -30,6 +30,6 @@ public class PresenterImpl implements iPresenter {
 
     @Override
     public void presenterShowError(String message) {
-
+        view.showError(message);
     }
 }
