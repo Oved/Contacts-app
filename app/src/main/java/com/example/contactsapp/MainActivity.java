@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.contactsapp.databinding.ActivityMainBinding;
+import com.example.contactsapp.interfaces.iView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements iView {
 
     private ActivityMainBinding binding;
     @Override
