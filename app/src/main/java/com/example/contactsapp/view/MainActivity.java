@@ -18,7 +18,7 @@ import com.example.contactsapp.view.adapter.ContactsAdapter;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements iView, SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements iView, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     private ActivityMainBinding binding;
     private iPresenter presenter;
@@ -33,8 +33,12 @@ public class MainActivity extends AppCompatActivity implements iView, SearchView
         setContentView(binding.getRoot());
         init();
         searchContacts();
+
+        binding.customTb.searchView.setOnSearchClickListener(v -> {
+            binding.customTb.tvTitleToolbar.setVisibility(View.GONE);
+            binding.customTb.imgOptions.setVisibility(View.GONE);
+        });
         binding.btnRetry.setOnClickListener(v -> searchContacts());
-        binding.customTb.searchView.setOnQueryTextListener(this);
     }
 
     public void init(){
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements iView, SearchView
         binding.recycler.setAdapter(adapter);
         binding.recycler.addItemDecoration(dividerItemDecoration);
         binding.recycler.setLayoutManager(linear);
+        binding.customTb.searchView.setOnQueryTextListener(this);
+        binding.customTb.searchView.setOnCloseListener(this);
     }
 
     @Override
@@ -74,6 +80,13 @@ public class MainActivity extends AppCompatActivity implements iView, SearchView
     @Override
     public boolean onQueryTextChange(String newText) {
         if (newText.isEmpty()) adapter.filter("");
+        return false;
+    }
+
+    @Override
+    public boolean onClose() {
+        binding.customTb.tvTitleToolbar.setVisibility(View.VISIBLE);
+        binding.customTb.imgOptions.setVisibility(View.VISIBLE);
         return false;
     }
 }

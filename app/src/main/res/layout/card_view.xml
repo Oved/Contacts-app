@@ -102,6 +102,7 @@
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@+id/title_name"
             android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="15sp"
             tools:text="ovedrincon29" />
