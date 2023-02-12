@@ -128,8 +128,8 @@
             android:layout_marginStart="25dp"
             android:layout_toEndOf="@+id/tv_name"
             android:layout_toRightOf="@+id/title_name"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="15sp"
             tools:text="+573133570977" />

@@ -18,11 +18,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     private List<Contact> contactList;
     private List<Contact> newList;
+    final ContactsAdapter.OnItemClickListener listener;
 
-    public ContactsAdapter(List<Contact> contactList){
+    public interface OnItemClickListener{
+        void onItemClick(Contact contact);
+    }
+
+    public ContactsAdapter(List<Contact> contactList, ContactsAdapter.OnItemClickListener listener){
         this.contactList = contactList;
         this.newList = new ArrayList<>();
         newList.addAll(contactList);
+        this.listener = listener;
     }
 
     @NonNull
@@ -57,6 +63,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             binding.tvEmail.setText(contactList.get(position).getEmail());
             binding.tvPhone.setText(contactList.get(position).getPhone());
             binding.tvWebsite.setText(contactList.get(position).getWebsite());
+            itemView.setOnClickListener(v -> listener.onItemClick(contactList.get(position)));
         }
     }
 

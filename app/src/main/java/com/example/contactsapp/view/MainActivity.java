@@ -1,5 +1,6 @@
 package com.example.contactsapp.view;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.contactsapp.databinding.ActivityMainBinding;
+import com.example.contactsapp.databinding.DialogContactBinding;
 import com.example.contactsapp.domain.Contact;
 import com.example.contactsapp.interfaces.iPresenter;
 import com.example.contactsapp.interfaces.iView;
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements iView, SearchView
     @Override
     public void showResults(List<Contact> contacts) {
         binding.progress.setVisibility(View.GONE);
-        adapter = new ContactsAdapter(contacts);
+        adapter = new ContactsAdapter(contacts, this::moveToDescription);
         binding.recycler.setAdapter(adapter);
         binding.recycler.addItemDecoration(dividerItemDecoration);
         binding.recycler.setLayoutManager(linear);
@@ -81,6 +84,26 @@ public class MainActivity extends AppCompatActivity implements iView, SearchView
     public boolean onQueryTextChange(String newText) {
         if (newText.isEmpty()) adapter.filter("");
         return false;
+    }
+
+    private void moveToDescription(Contact contact) {
+        DialogContactBinding dialogBinding= DialogContactBinding.inflate(getLayoutInflater());
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(dialogBinding.getRoot()).setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialogBinding.btnClose.setOnClickListener(v -> dialog.cancel());
+        dialogBinding.nameCard.setText(contact.getName());
+        dialogBinding.phoneCard.setText(contact.getPhone());
+        dialogBinding.emailCard.setText(contact.getEmail());
+        dialogBinding.btnCall.setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "Calling...", Toast.LENGTH_SHORT).show();
+            dialog.cancel();
+        });
+        dialogBinding.btnSendEmail.setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "Sending mail...", Toast.LENGTH_SHORT).show();
+            dialog.cancel();
+        });
     }
 
     @Override
