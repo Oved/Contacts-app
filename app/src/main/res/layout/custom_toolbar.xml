@@ -7,10 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
-        <ImageView
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
+            android:background="#00FFFFFF"
             android:src="@drawable/ic_burguer" />
 
         <LinearLayout
@@ -24,9 +25,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-
+                android:textStyle="bold"
+                android:textColor="#094A61"
+                android:fontFamily="sans-serif-condensed-light"
                 android:text="Contacts"
-                android:textSize="24sp" />
+                android:textSize="26sp" />
 
             <SearchView
                 android:id="@+id/search_view"
@@ -34,11 +37,12 @@
                 android:layout_height="wrap_content"
                 android:queryHint="Search"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/img_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:src="@drawable/ic_options" />
 
         </LinearLayout>
